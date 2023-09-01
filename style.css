@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+  }
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr;
+}
+
+.header{
+    background-color: aqua;
+}
+
+.board-container{
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3,200px);
+    justify-content: center;
+
+}
+
+.square{
+    border: 1px solid blue;
+    height: 200px;
+    width: 200px;
+}
+
+.transition-bg {
+    transition: background-color 0.5s ease;
+}
