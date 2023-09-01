@@ -11,6 +11,7 @@ const gameBoard = (() => {
     const isTheBoardOccupied = ((squareId,clickedSquare) => {
         if (board[squareId] === ""){
             clickedSquare.textContent = playGame.getCurrentPlayerSymbol();
+            clickedSquare.classList.add("my-font-style");
             board[parseInt(squareId)] = playGame.getCurrentPlayerSymbol();
             return true
         }
@@ -48,7 +49,14 @@ const gameBoard = (() => {
         }
         return "continue"
     })
-    return {board,isTheBoardOccupied,checkWin};
+
+    const resetBoard = () => {
+        for (let i = 0; i < board.length; i++) {
+          board[i] = "";
+        }
+      };
+
+    return {board,isTheBoardOccupied,checkWin,resetBoard};
 
 })();
 
@@ -69,11 +77,38 @@ const stylingFunctions = (() => {
     return {changeBackgroundColor}
 })();
 
+
+const choosePlayer = (() => {
+    const buttonO = document.querySelector(".O");
+    const buttonX = document.querySelector(".X");
+    
+    buttonO.addEventListener("click", () => {
+        resetEverything();  
+        playGame.setPlayerOne("O");  
+        playGame.setPlayerTwo("X"); 
+    });
+    
+    buttonX.addEventListener("click", () => {
+        resetEverything(); 
+        playGame.setPlayerOne("X");  
+        playGame.setPlayerTwo("O");  
+    });
+})();
+
+
 const playGame = (() => {
 
-    playerOne = Player("X")
-    playerTwo = Player("O")
+    playerOne = Player("O") 
+    playerTwo = Player("X")
     let round = 1
+
+    const setPlayerOne = (symbol) => {
+        playerOne = Player(symbol);
+    };
+    
+    const setPlayerTwo = (symbol) => {
+        playerTwo = Player(symbol);
+    };
 
     const getCurrentPlayerSymbol = (() => {
         return round % 2 === 1 ? playerOne.getSymbol() : playerTwo.getSymbol();
@@ -91,15 +126,56 @@ const playGame = (() => {
     const getCurrentRound = (()=> {
         return round
     })
+    const resetGame = () => {
+        round = 1;
+      };
 
 
-    return {getCurrentRound,getCurrentPlayerSymbol, updateRound,getLastPlayerSymbol};
+    return {getCurrentRound,getCurrentPlayerSymbol, updateRound,getLastPlayerSymbol,resetGame,setPlayerOne,setPlayerTwo};
 
 })();
 
+
+
 const displayController = (() => {
+
+    const showModal = (text) => {
+        const modal = document.getElementById("myModal");
+        const span = document.getElementsByClassName("close")[0];
+        const modalText = document.getElementById("modal-text");
+      
+        modalText.textContent = text;
+        modal.style.opacity = 1;  // set opacity to 1
+        modal.style.display = "block";
+
+      
+        span.onclick = () => {
+          modal.style.display = "none";
+          resetEverything();
+        };
+      
+        window.onclick = (event) => {
+          if (event.target === modal) {
+            modal.style.display = "none";
+            resetEverything();
+          }
+        };
+      };
+      
+
+    const resetDisplay = () => {
+        squareElement.forEach((square) => {
+          square.textContent = "";
+        });
+      };
+
     const board = gameBoard.board
     const squareElement = document.querySelectorAll(".square");
+    const resetButton = document.querySelector(".reset")
+
+    resetButton.addEventListener("click", ()=>{
+        resetEverything()
+    })
 
     squareElement.forEach((squareElement) => {
         squareElement.addEventListener("click", (event) => {
@@ -108,16 +184,21 @@ const displayController = (() => {
             if (gameBoard.isTheBoardOccupied(squareId,clickedSquare)){
                 playGame.updateRound();
             }
-            console.log(playGame.getCurrentRound())
-            if(gameBoard.checkWin(board,playGame.getLastPlayerSymbol()) === "win"){
-                document.querySelector(".header").textContent= `GAME OVER, ${playGame.getLastPlayerSymbol()} has won he game`
+            if (gameBoard.checkWin(board,playGame.getLastPlayerSymbol()) === "win"){
+                showModal(`GAME OVER, ${playGame.getLastPlayerSymbol()} has won the game`);
             } else if (gameBoard.checkWin(board,playGame.getLastPlayerSymbol()) === "draw"){
-                document.querySelector(".header").textContent= `IT'S A DRAW`
+                showModal("IT'S A DRAW");
             }
         });
     });
+    return {resetDisplay};
 })();
 
 
 
 
+const resetEverything = () => {
+    gameBoard.resetBoard();
+    playGame.resetGame();
+    displayController.resetDisplay();
+  };

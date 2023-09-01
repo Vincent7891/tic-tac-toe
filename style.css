@@ -3,19 +3,84 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
+    font-family: "Lucida Handwriting", cursive, sans-serif;
   }
 .main-container{
+    height: 100vh;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 5fr;
+    grid-template-rows: 1fr 3fr;
 }
 
 .header{
-    background-color: aqua;
+    padding: 40px;
+    background-color:#e3e3e3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
 }
 
+.O-container, .X-container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+.welcome{
+    grid-row: 1/2;
+    grid-column: 2/3;
+    font-size: 48px;
+    font-weight: 900;
+    
+}
+.O{
+    grid-column: 1/2;
+}
+
+.reset{
+    grid-column: 2/3;
+}
+
+.X{
+    grid-column: 3/4;
+}
+.O, .X, .reset {
+    grid-row: 2/3;
+    height: 100px;
+    width: 200px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    padding: 0.25em 0.75em;
+    touch-action: manipulation;
+}
+
+.O:active, .X:active, .reset:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+.O:hover, .X:hover, .reset:hover {
+    transition: all 0.3s ease-in-out; 
+    background-color: green;           
+    box-shadow: 0 0 10px #00ff00;     
+  }
 .board-container{
-    padding: 30px;
+    background-color: #455d7a;
+    padding-top:50px;
     display: grid;
     grid-template-columns: repeat(3, 200px);
     grid-template-rows: repeat(3,200px);
@@ -24,11 +89,63 @@
 }
 
 .square{
-    border: 1px solid blue;
+    border: 5px solid #f95959;
     height: 200px;
     width: 200px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    transition: background-color 0.5s ease;
+}
+
+.square:hover{
+    background-color: #00ff006c;
 }
 
 .transition-bg {
     transition: background-color 0.5s ease;
 }
+
+.my-font-style{
+    font-size: 128px;
+    font-family: "Lucida Handwriting", cursive, sans-serif;
+}
+   
+
+.modal {
+    display: none;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: opacity 3s ease;
+
+  }
+  
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 800px;
+    width: 800px;
+    font-size: 64px;
+    font-family: "Lucida Handwriting", cursive, sans-serif;
+  }
+  
+.close {
+    position: absolute; 
+    top: 10px;
+    right: 10px;  
+    cursor: pointer;
+    font-size: 64px;  
+}  
+
