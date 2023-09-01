@@ -39,7 +39,10 @@
 .O{
     grid-column: 1/2;
 }
-
+.O-container, .X-container{
+    font-size:24px;
+    font-weight: 900px;
+}
 .reset{
     grid-column: 2/3;
 }
